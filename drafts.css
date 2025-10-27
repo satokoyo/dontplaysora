@@ -1,0 +1,13 @@
+div[role=dialog] img[alt="Upload"] {
+  height: 20vh !important;
+}
+
+div[role=dialog] textarea {
+  height: 50vh !important;
+}
+
+/* Force full opacity; disable pulsing */
+.animate-pulse {
+  animation: none !important;
+  opacity: 1 !important;
+}

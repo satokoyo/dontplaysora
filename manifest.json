@@ -1,0 +1,46 @@
+  {
+    "manifest_version": 3,
+    "name": "Sora Autoplay Blocker",
+    "version": "1.0",
+    "description": "Soraで動画を自動再生しないようにする。",
+    "permissions": [
+      "scripting"
+    ],
+    "host_permissions": [
+      "https://sora.chatgpt.com/*"
+    ],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "web_accessible_resources": [
+      {
+        "resources": ["page-inject.js"],
+        "matches": [
+          "https://sora.chatgpt.com/*"
+        ]
+      }
+    ],
+    "content_scripts": [
+      {
+        "matches": [
+          "https://sora.chatgpt.com/drafts",
+          "https://sora.chatgpt.com/explore",
+          "https://sora.chatgpt.com/profile"
+        ],
+        "js": ["disable-autoplay.js"],
+        "run_at": "document_start",
+        "all_frames": true
+      },
+      {
+        "matches": [
+          "https://sora.chatgpt.com/drafts",
+          "https://sora.chatgpt.com/explore",
+          "https://sora.chatgpt.com/profile"
+        ],
+        "css": ["drafts.css"],
+        "run_at": "document_start",
+        "all_frames": true
+      }
+    ]
+  }
+  
