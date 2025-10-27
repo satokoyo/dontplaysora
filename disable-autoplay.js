@@ -68,18 +68,6 @@
     }
   }
 
-  function fmtLocal(iso) {
-    if (!iso) return null;
-    const d = new Date(iso);
-    if (isNaN(d.getTime())) return iso;
-    const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    const hh = String(d.getHours()).padStart(2, '0');
-    const mm = String(d.getMinutes()).padStart(2, '0');
-    return `${y}-${m}-${day} ${hh}:${mm}`;
-  }
-
   function upsertOverlayForVideo(video) {
     if (!isDraftsPage()) return;
     if (!(video instanceof HTMLVideoElement)) return;
@@ -96,8 +84,6 @@
         issued: acc.issued || m.issued,
         thumbId: acc.thumbId || m.thumbId,
       }), { issued: null, thumbId: null });
-
-    if (!meta.issued && !meta.thumbId) return; // 情報がなければ何もしない
 
     // オーバーレイを表示するコンテナ（親がaならa、なければ親要素）
     let container = video.parentElement || video;
@@ -116,6 +102,12 @@
         container.style.position = 'relative';
       }
     } catch {}
+
+    if (!meta.thumbId) {
+      const existing = container.querySelector('.sora-meta-overlay');
+      if (existing) existing.remove();
+      return;
+    }
 
     let overlay = container.querySelector('.sora-meta-overlay');
     if (!overlay) {
@@ -137,9 +129,7 @@
       container.appendChild(overlay);
     }
 
-    const issuedText = meta.issued ? fmtLocal(meta.issued) : '';
     const lines = [];
-    if (issuedText) lines.push(`発行日時: ${issuedText}`);
     if (meta.thumbId) lines.push(`サムネイルID: ${meta.thumbId}`);
     overlay.textContent = lines.join('\n');
     overlay.style.whiteSpace = 'pre-line';
