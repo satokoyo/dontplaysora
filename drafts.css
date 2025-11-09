@@ -4,11 +4,11 @@ div[role=dialog] img[alt="Upload"] {
 
 
 div[role=dialog] textarea {
-  height: 50vh !important;
+  max-height: 30vh !important;
 }
 
 .outline-none textarea{
-  max-height: 50vh !important;
+  max-height: 30vh !important;
 }
 
 /* Force full opacity; disable pulsing */
